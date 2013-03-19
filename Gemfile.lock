@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cloud_runner (0.0.1)
+    cloud_runner (0.0.2)
       digital_ocean
       net-scp
       net-ssh

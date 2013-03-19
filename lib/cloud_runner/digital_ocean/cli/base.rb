@@ -42,7 +42,7 @@ module CloudRunner::DigitalOcean
       def execute_script
         step("Executing script '#{@script_path}'") do
           run.run_script(@script_path, @out, @err, {
-            :ssh_logger => OneLineLogger.new(@err),
+            :ssh_logger => nil # OneLineLogger.new(@err)
           })
         end
       end

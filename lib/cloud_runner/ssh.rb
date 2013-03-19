@@ -20,8 +20,8 @@ module CloudRunner
       ssh_opts = DEFAULT_OPTIONS.clone.merge(
         :keys => [@ssh_key.private_path],
         :host_key => "ssh-#{@ssh_key.type}",
-        :logger => opts[:ssh_logger] || StringIO.new,
-        :verbose => :debug,
+        :logger => opts[:ssh_logger],
+        :verbose => opts[:ssh_logger] && :debug,
       )
 
       # Assume the worst
