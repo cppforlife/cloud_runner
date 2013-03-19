@@ -9,7 +9,7 @@ require "cloud_runner/digital_ocean/cli/new"
 
 options = {
   :client_id  => ENV["CR_CLIENT_ID"],
-  :api_key    => ENV["CR_APP_KEY"],
+  :api_key    => ENV["CR_API_KEY"],
   :host_image => "ubuntu-10-04",
 }
 

@@ -63,12 +63,12 @@ module CloudRunner::DigitalOcean
       @api.droplets.delete(@droplet.id) if @droplet
     end
 
-    def run_script(local_path, out, err)
+    def run_script(local_path, out, err, opts={})
       raise "Droplet must be created" unless @droplet
       raise "Local path must be specified" unless local_path
 
       ssh = CloudRunner::Ssh.new(@droplet.ip_address, "root", @ssh_key)
-      ssh.run_script(local_path, out, err)
+      ssh.run_script(local_path, out, err, opts)
     end
 
     private

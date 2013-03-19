@@ -1,4 +1,5 @@
 require "cloud_runner/ssh_key"
+require "cloud_runner/one_line_logger"
 require "cloud_runner/digital_ocean/base"
 require "cloud_runner/digital_ocean/api"
 require "cloud_runner/digital_ocean/run"
@@ -40,7 +41,9 @@ module CloudRunner::DigitalOcean
 
       def execute_script
         step("Executing script '#{@script_path}'") do
-          run.run_script(@script_path, @out, @err)
+          run.run_script(@script_path, @out, @err, {
+            :ssh_logger => OneLineLogger.new(@err),
+          })
         end
       end
 

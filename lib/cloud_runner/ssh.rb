@@ -1,4 +1,5 @@
 require "securerandom"
+require "stringio"
 require "net/ssh"
 require "net/scp"
 
@@ -15,10 +16,12 @@ module CloudRunner
       raise "Key must be specified"  unless @ssh_key = ssh_key
     end
 
-    def run_script(local_path, out, err)
+    def run_script(local_path, out, err, opts={})
       ssh_opts = DEFAULT_OPTIONS.clone.merge(
         :keys => [@ssh_key.private_path],
         :host_key => "ssh-#{@ssh_key.type}",
+        :logger => opts[:ssh_logger] || StringIO.new,
+        :verbose => :debug,
       )
 
       # Assume the worst
