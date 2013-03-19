@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "bundler"
+Bundler.setup
+
+$:.unshift(File.expand_path("../lib", __FILE__))
+require "cloud_runner/digital_ocean/cli/new"
+
+options = {
+  :client_id  => ENV["CR_CLIENT_ID"],
+  :api_key    => ENV["CR_APP_KEY"],
+  :host_image => "ubuntu-10-04",
+}
+
+OptionParser.new do |p|
+  p.on("-c", "--client-id CLIENT_ID", String,
+       "DigitalOcean Client id / ENV['CR_CLIENT_ID']") do |v|
+    options[:client_id] = v
+  end
+
+  p.on("-a", "--api-key API_KEY", String,
+       "DigitalOcean API key / ENV['CR_API_KEY']") do |v|
+    options[:api_key] = v
+  end
+
+  p.on("-s", "--script SCRIPT", String,
+       "Path to script to run on specified droplet") do |v|
+    options[:script] = v
+  end
+
+  p.on("-h", "--host-image [HOST_IMAGE]", String,
+       "Host image to use for building droplet") do |v|
+    options[:host_image] = v
+  end
+
+  p.on("--keep-droplet",
+       "Keep droplet after script finishes") do |v|
+    options[:keep_droplet] = true
+  end
+
+  p.on("-h", "--help", "Display this screen") do
+    puts(p)
+    exit
+  end
+end.parse!
+
+exit CloudRunner::DigitalOcean::Cli::New.new(options).run_script($stdout, $stderr)
